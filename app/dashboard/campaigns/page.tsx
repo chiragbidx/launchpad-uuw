@@ -1,3 +1,4 @@
+"use client";
 import { FolderKanban, Circle, CheckCircle2, Clock3, User, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
