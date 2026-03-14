@@ -25,7 +25,14 @@ import {
   Th,
   Thead,
 } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -171,18 +178,40 @@ export default function CampaignsPage() {
     setDialogOpen(true);
   };
 
-  const handleDialogChange = (open: boolean) => {
-    setDialogOpen(open);
-    if (!open) setEditingCampaign(null);
+  // Block close by backdrop click or escape key; only allow Cancel or form submit to close the modal
+  const handleDialogInteractOutside = (event: Event) => {
+    event.preventDefault();
   };
 
+  const handleDialogEscape = (event: Event) => {
+    event.preventDefault();
+  };
+
+  // Only close dialog on real success/cancel
+  const handleDialogChange = (open: boolean) => {
+    // do not allow close unless via cancel or successful submit (handled in handleDone/handleCancel)
+    if (!open && !cancelOrSaveRef.current) {
+      // block programmatic close
+      setDialogOpen(true);
+      return;
+    }
+    setDialogOpen(open);
+    if (!open) setEditingCampaign(null);
+    cancelOrSaveRef.current = false;
+  };
+
+  // Mutably track if closing is intentional
+  const cancelOrSaveRef = useRef(false);
+
   const handleDone = async () => {
+    cancelOrSaveRef.current = true;
     await refreshCampaigns();
     setDialogOpen(false);
     setEditingCampaign(null);
   };
 
   const handleCancel = () => {
+    cancelOrSaveRef.current = true;
     setDialogOpen(false);
     setEditingCampaign(null);
   };
@@ -272,8 +301,15 @@ export default function CampaignsPage() {
         </CardContent>
       </Card>
 
-      <Dialog open={dialogOpen} onOpenChange={handleDialogChange}>
-        <DialogContent className="max-w-lg">
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={handleDialogChange}
+      >
+        <DialogContent
+          className="max-w-lg"
+          onInteractOutside={handleDialogInteractOutside}
+          onEscapeKeyDown={handleDialogEscape}
+        >
           <DialogHeader>
             <DialogTitle>
               {editingCampaign ? "Edit Campaign" : "Add Campaign"}
