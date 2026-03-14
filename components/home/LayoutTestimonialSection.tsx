@@ -27,53 +27,44 @@ interface ReviewProps {
 const reviewList: ReviewProps[] = [
   {
     image: "/demo-img.jpg",
-    name: "Aarav Shah",
-    userName: "Founder, FinchFlow",
+    name: "Riya Mehra",
+    userName: "MD, PixelSprint Agency",
     comment:
-      "Panda saved us weeks of setup. We launched our first paying plan in less than a sprint.",
+      "Marketraze lets us handle 12+ client brands—analytics, campaigns, and asset approvals—in a single, polished dashboard.",
     rating: 5.0,
   },
   {
     image: "/demo-img.jpg",
-    name: "Maya Patel",
-    userName: "Product Lead, OrbitDesk",
+    name: "Alex Li",
+    userName: "Growth Lead, DeltaFuse",
     comment:
-      "The section structure and component quality made it easy to ship a polished onboarding flow quickly.",
+      "The campaign timeline and AI writer save hours every week. Clients love the clarity, our team loves the speed.",
+    rating: 4.9,
+  },
+  {
+    image: "/demo-img.jpg",
+    name: "Samantha Torres",
+    userName: "Partner, Advantum Collective",
+    comment:
+      "Marketraze brings the accountability our agency needed—transparent reporting, asset library, and pro branding.",
+    rating: 5.0,
+  },
+  {
+    image: "/demo-img.jpg",
+    name: "Yash Patel",
+    userName: "Founder, MetaMakers",
+    comment:
+      "Highly recommend for any consultancy juggling multiple brands and client expectations!",
     rating: 4.8,
   },
-
   {
     image: "/demo-img.jpg",
-    name: "Nikhil Rao",
-    userName: "CTO, TeamForge",
+    name: "Priya Anand",
+    userName: "Director, Marquix Labs",
     comment:
-      "We replaced our old starter with Panda and reduced front-end rework dramatically.",
-    rating: 4.9,
-  },
-  {
-    image: "/demo-img.jpg",
-    name: "Emma Brooks",
-    userName: "Head of Growth, Nimbus",
-    comment:
-      "The default layout is conversion-friendly and easy to adapt to our brand.",
+      "AI automations elevate our campaigns while keeping everything organized. Marketraze is the new standard.",
     rating: 5.0,
-  },
-  {
-    image: "/demo-img.jpg",
-    name: "Daniel Kim",
-    userName: "Engineering Manager, PulseOps",
-    comment:
-      "Great developer ergonomics. New engineers onboarded fast and started shipping immediately.",
-    rating: 5.0,
-  },
-  {
-    image: "/demo-img.jpg",
-    name: "Sofia Green",
-    userName: "Founder, LaunchPad AI",
-    comment:
-      "Exactly what we needed for an MVP: clean code, strong UI, and a sensible section flow.",
-    rating: 4.9,
-  },
+  }
 ];
 
 export const LayoutTestimonialSection = () => {
@@ -85,7 +76,7 @@ export const LayoutTestimonialSection = () => {
         </h2>
 
         <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-          Teams shipping with Panda
+          Agencies shipping faster with Marketraze
         </h2>
       </div>
 
@@ -104,11 +95,9 @@ export const LayoutTestimonialSection = () => {
               <Card className="bg-muted/50 dark:bg-card">
                 <CardContent className="pt-6 pb-0">
                   <div className="flex gap-1 pb-6">
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
+                    {Array.from({ length: Math.round(review.rating) }).map((_, i) => (
+                      <Star key={i} className="size-4 fill-primary text-primary" />
+                    ))}
                   </div>
                   {`"${review.comment}"`}
                 </CardContent>
@@ -117,7 +106,7 @@ export const LayoutTestimonialSection = () => {
                   <div className="flex flex-row items-center gap-4">
                     <Avatar>
                       <AvatarImage src={review.image} alt={review.name} />
-                      <AvatarFallback>SV</AvatarFallback>
+                      <AvatarFallback>{review.name[0]}</AvatarFallback>
                     </Avatar>
 
                     <div className="flex flex-col">
