@@ -8,9 +8,21 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormStatus } from "react-dom";
 import { useActionState, useEffect, useRef, useState } from "react";
-import { Users } from "lucide-react";
+import { Users, PlusCircle, X } from "lucide-react";
 
-function AddEditClientForm({ client, workspaceId, onDone }: { client?: any, workspaceId: string, onDone: () => void }) {
+function AddEditClientForm({
+  client,
+  workspaceId,
+  onDone,
+  onCancel,
+  isEditing,
+}: {
+  client?: any,
+  workspaceId: string,
+  onDone: (newClient?: any) => void,
+  onCancel: () => void,
+  isEditing: boolean,
+}) {
   const [formState, formAction] = useActionState(
     client ? editClient : addClient,
     null
@@ -20,6 +32,7 @@ function AddEditClientForm({ client, workspaceId, onDone }: { client?: any, work
 
   useEffect(() => {
     if (formState === null && !pending) {
+      // onDone expects to request a refresh/close, but newClient is not available unless returned from server. Here, just close the form.
       formRef.current?.reset();
       onDone();
     }
@@ -29,7 +42,7 @@ function AddEditClientForm({ client, workspaceId, onDone }: { client?: any, work
     <form
       ref={formRef}
       action={formAction}
-      className="space-y-4"
+      className="space-y-4 bg-muted/50 border p-4 rounded-lg mb-4"
       autoComplete="off"
     >
       {client && (
@@ -56,9 +69,14 @@ function AddEditClientForm({ client, workspaceId, onDone }: { client?: any, work
         <Label htmlFor="notes">Notes</Label>
         <Textarea id="notes" name="notes" defaultValue={client?.notes || ""} />
       </div>
-      <Button type="submit" disabled={pending}>
-        {pending ? "Saving..." : client ? "Update Client" : "Add Client"}
-      </Button>
+      <div className="flex gap-2">
+        <Button type="submit" disabled={pending}>
+          {pending ? "Saving..." : client ? "Update Client" : "Add Client"}
+        </Button>
+        <Button type="button" variant="ghost" onClick={onCancel} disabled={pending}>
+          Cancel
+        </Button>
+      </div>
       {formState?.error && (
         <p className="text-sm text-red-600">{formState.error}</p>
       )}
@@ -99,23 +117,57 @@ export default function ClientsClient({
   workspaceId: string;
 }) {
   const [clients, setClients] = useState(initialClients);
+  const [showForm, setShowForm] = useState(false);
   const [editingClient, setEditingClient] = useState<any>(null);
 
-  // Optionally refresh clients from the server with SWR or optimistic update after add/edit
+  const handleAddClick = () => {
+    setEditingClient(null);
+    setShowForm(true);
+  };
+
+  const handleEdit = (client: any) => {
+    setEditingClient(client);
+    setShowForm(true);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditingClient(null);
+  };
+
+  const handleDone = (/* newClient */) => {
+    setShowForm(false);
+    setEditingClient(null);
+    // Optionally re-fetch clients or optimistically update state
+    // setClients(...)
+    // If you have real-time or polling update, hook in here
+  };
 
   return (
     <>
-      <AddEditClientForm
-        client={editingClient}
-        workspaceId={workspaceId}
-        onDone={() => setEditingClient(null)}
-      />
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold">Client List</h2>
+        {!showForm && (
+          <Button onClick={handleAddClick} variant="outline" size="sm" className="gap-1.5">
+            <PlusCircle className="size-4" />
+            Add Client
+          </Button>
+        )}
+      </div>
 
-      <hr className="my-8" />
+      {showForm && (
+        <AddEditClientForm
+          client={editingClient}
+          workspaceId={workspaceId}
+          onDone={handleDone}
+          onCancel={handleCancel}
+          isEditing={!!editingClient}
+        />
+      )}
 
       <ClientList
         clients={clients}
-        onEdit={setEditingClient}
+        onEdit={handleEdit}
       />
     </>
   );
