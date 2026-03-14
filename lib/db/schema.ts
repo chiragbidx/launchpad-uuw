@@ -92,3 +92,19 @@ export const clients = pgTable("clients", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+// -------- CAMPAIGNS TABLE SCHEMA ---------
+export const campaigns = pgTable("campaigns", {
+  id: text("id")
+    .notNull()
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  workspaceId: text("workspace_id").notNull(),
+  name: text("name").notNull(),
+  status: text("status").notNull().default("Planned"), // ["Planned", "Active", "Completed"]
+  owner: text("owner"),
+  progress: text("progress").notNull().default("0"),
+  description: text("description"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
