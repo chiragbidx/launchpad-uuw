@@ -76,3 +76,19 @@ export const teamInvitations = pgTable("team_invitations", {
     .notNull()
     .defaultNow(),
 });
+
+// -------- CLIENTS TABLE SCHEMA ---------
+export const clients = pgTable("clients", {
+  id: text("id")
+    .notNull()
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  workspaceId: text("workspace_id").notNull(),
+  name: text("name").notNull(),
+  email: text("email"),
+  phone: text("phone"),
+  contactName: text("contact_name"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
