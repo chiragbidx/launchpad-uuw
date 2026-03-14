@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormStatus } from "react-dom";
-import { useActionState, useEffect, useRef, useState } from "react";
-import { Users, PlusCircle, X } from "lucide-react";
+import { useActionState, useEffect, useRef, useState, useCallback } from "react";
+import { Users, PlusCircle } from "lucide-react";
 
 function AddEditClientForm({
   client,
@@ -32,7 +32,6 @@ function AddEditClientForm({
 
   useEffect(() => {
     if (formState === null && !pending) {
-      // onDone expects to request a refresh/close, but newClient is not available unless returned from server. Here, just close the form.
       formRef.current?.reset();
       onDone();
     }
@@ -109,6 +108,16 @@ function ClientList({ clients, onEdit }: { clients: any[], onEdit: (client: any)
   );
 }
 
+// Utility for live refresh - simple fetcher to API route
+async function fetchClients(workspaceId: string) {
+  const res = await fetch(`/api/clients?workspaceId=${encodeURIComponent(workspaceId)}`, {
+    method: "GET",
+    next: { revalidate: 0 }
+  });
+  if (!res.ok) return [];
+  return res.json();
+}
+
 export default function ClientsClient({
   initialClients,
   workspaceId,
@@ -116,9 +125,14 @@ export default function ClientsClient({
   initialClients: any[];
   workspaceId: string;
 }) {
-  const [clients, setClients] = useState(initialClients);
+  const [clients, setClients] = useState(initialClients ?? []);
   const [showForm, setShowForm] = useState(false);
   const [editingClient, setEditingClient] = useState<any>(null);
+
+  const refreshClients = useCallback(async () => {
+    const updated = await fetchClients(workspaceId);
+    setClients(updated);
+  }, [workspaceId]);
 
   const handleAddClick = () => {
     setEditingClient(null);
@@ -135,12 +149,10 @@ export default function ClientsClient({
     setEditingClient(null);
   };
 
-  const handleDone = (/* newClient */) => {
+  const handleDone = async () => {
     setShowForm(false);
     setEditingClient(null);
-    // Optionally re-fetch clients or optimistically update state
-    // setClients(...)
-    // If you have real-time or polling update, hook in here
+    await refreshClients();
   };
 
   return (
@@ -148,7 +160,7 @@ export default function ClientsClient({
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">Client List</h2>
         {!showForm && (
-          <Button onClick={handleAddClick} variant="outline" size="sm" className="gap-1.5">
+          <Button onClick={handleAddClick} variant="outline" size="sm" className="gap-1.5" data-testid="add-client-button">
             <PlusCircle className="size-4" />
             Add Client
           </Button>
