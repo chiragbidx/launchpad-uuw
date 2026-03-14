@@ -9,25 +9,26 @@ import { Textarea } from "@/components/ui/textarea";
 import { useFormStatus } from "react-dom";
 import { useActionState, useEffect, useRef, useState, useCallback } from "react";
 import { Users, PlusCircle } from "lucide-react";
-
-/*
-  Explanation: The bug is caused by the parent component remounting or state being cleared
-  due to re-fetching (especially after any state change or optimistic update).
-  The solution decouples the Add/Edit Form panel's visibility from any async data refresh by keeping showForm and editingClient
-  in their own state, and running refreshClients only after a successful add/edit (not on every state change).
-*/
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 function AddEditClientForm({
   client,
   workspaceId,
   onDone,
-  onCancel,
   isEditing,
 }: {
   client?: any,
   workspaceId: string,
   onDone: (newClient?: any) => void,
-  onCancel: () => void,
   isEditing: boolean,
 }) {
   // Only use useActionState INSIDE the form, so parent state changes do not remount the form.
@@ -51,7 +52,7 @@ function AddEditClientForm({
     <form
       ref={formRef}
       action={formAction}
-      className="space-y-4 bg-muted/50 border p-4 rounded-lg mb-4"
+      className="space-y-4"
       autoComplete="off"
     >
       {client && (
@@ -78,14 +79,16 @@ function AddEditClientForm({
         <Label htmlFor="notes">Notes</Label>
         <Textarea id="notes" name="notes" defaultValue={client?.notes || ""} />
       </div>
-      <div className="flex gap-2">
+      <DialogFooter className="flex gap-2 !justify-end">
         <Button type="submit" disabled={pending}>
           {pending ? "Saving..." : client ? "Update Client" : "Add Client"}
         </Button>
-        <Button type="button" variant="ghost" onClick={onCancel} disabled={pending}>
-          Cancel
-        </Button>
-      </div>
+        <DialogClose asChild>
+          <Button type="button" variant="ghost" disabled={pending}>
+            Cancel
+          </Button>
+        </DialogClose>
+      </DialogFooter>
       {formState?.error && (
         <p className="text-sm text-red-600">{formState.error}</p>
       )}
@@ -135,8 +138,7 @@ export default function ClientsClient({
   workspaceId: string;
 }) {
   const [clients, setClients] = useState(initialClients ?? []);
-  // Form UI visibility is now decoupled from reload
-  const [showForm, setShowForm] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [editingClient, setEditingClient] = useState<any>(null);
 
   const refreshClients = useCallback(async () => {
@@ -144,26 +146,24 @@ export default function ClientsClient({
     setClients(updated);
   }, [workspaceId]);
 
-  // No state reset here when showForm is toggled
   const handleAddClick = () => {
     setEditingClient(null);
-    setShowForm(true);
+    setDialogOpen(true);
   };
 
   const handleEdit = (client: any) => {
     setEditingClient(client);
-    setShowForm(true);
+    setDialogOpen(true);
   };
 
-  const handleCancel = () => {
-    setShowForm(false);
-    setEditingClient(null);
+  const handleDialogChange = (open: boolean) => {
+    setDialogOpen(open);
+    if (!open) setEditingClient(null);
   };
 
-  // Only refresh and close the form after saving a client
   const handleDone = async () => {
     await refreshClients();
-    setShowForm(false);
+    setDialogOpen(false);
     setEditingClient(null);
   };
 
@@ -171,29 +171,40 @@ export default function ClientsClient({
     <>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">Client List</h2>
-        {!showForm && (
-          <Button onClick={handleAddClick} variant="outline" size="sm" className="gap-1.5" data-testid="add-client-button">
-            <PlusCircle className="size-4" />
-            Add Client
-          </Button>
-        )}
+        <Button
+          onClick={handleAddClick}
+          variant="outline"
+          size="sm"
+          className="gap-1.5"
+          data-testid="add-client-button"
+        >
+          <PlusCircle className="size-4" />
+          Add Client
+        </Button>
       </div>
 
-      {/* The form is rendered only when explicitly requested, and stays visible until saved or manually canceled */}
-      {showForm && (
-        <AddEditClientForm
-          client={editingClient}
-          workspaceId={workspaceId}
-          onDone={handleDone}
-          onCancel={handleCancel}
-          isEditing={!!editingClient}
-        />
-      )}
+      <Dialog open={dialogOpen} onOpenChange={handleDialogChange}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>
+              {editingClient ? "Edit Client" : "Add Client"}
+            </DialogTitle>
+            <DialogDescription>
+              {editingClient
+                ? "Update the client details."
+                : "Fill in the details for a new client."}
+            </DialogDescription>
+          </DialogHeader>
+          <AddEditClientForm
+            client={editingClient}
+            workspaceId={workspaceId}
+            onDone={handleDone}
+            isEditing={!!editingClient}
+          />
+        </DialogContent>
+      </Dialog>
 
-      <ClientList
-        clients={clients}
-        onEdit={handleEdit}
-      />
+      <ClientList clients={clients} onEdit={handleEdit} />
     </>
   );
 }
