@@ -16,6 +16,10 @@ const ClientSchema = z.object({
   notes: z.string().optional().or(z.literal("")),
 });
 
+export type ClientFormState = {
+  error?: string;
+} | null;
+
 export async function getClients(workspaceId: string) {
   return await db
     .select()
@@ -23,12 +27,15 @@ export async function getClients(workspaceId: string) {
     .where(eq(clients.workspaceId, workspaceId));
 }
 
-export async function addClient(formData: FormData) {
+export async function addClient(
+  _prevState: ClientFormState,
+  formData: FormData
+): Promise<ClientFormState> {
   const data = Object.fromEntries(formData.entries());
   const parsed = ClientSchema.safeParse(data);
 
   if (!parsed.success) {
-    throw new Error(parsed.error.errors.map(e => e.message).join(", "));
+    return { error: parsed.error.errors.map((e) => e.message).join(", ") };
   }
 
   const clientInput = {
@@ -42,14 +49,22 @@ export async function addClient(formData: FormData) {
 
   await db.insert(clients).values(clientInput);
   revalidatePath("/dashboard/clients");
+  return null;
 }
 
-export async function editClient(formData: FormData) {
+export async function editClient(
+  _prevState: ClientFormState,
+  formData: FormData
+): Promise<ClientFormState> {
   const data = Object.fromEntries(formData.entries());
   const parsed = ClientSchema.safeParse(data);
 
-  if (!parsed.success || !parsed.data.id) {
-    throw new Error(parsed.error.errors.map(e => e.message).join(", ") || "Client ID required");
+  if (!parsed.success) {
+    return { error: parsed.error.errors.map((e) => e.message).join(", ") };
+  }
+
+  if (!parsed.data.id) {
+    return { error: "Client ID required" };
   }
 
   const clientInput = {
@@ -66,4 +81,5 @@ export async function editClient(formData: FormData) {
     .set(clientInput)
     .where(eq(clients.id, parsed.data.id));
   revalidatePath("/dashboard/clients");
+  return null;
 }

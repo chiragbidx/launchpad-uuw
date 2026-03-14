@@ -6,12 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useFormState, useFormStatus } from "react-dom";
-import { useEffect, useRef, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Users } from "lucide-react";
 
 function AddEditClientForm({ client, workspaceId, onDone }: { client?: any, workspaceId: string, onDone: () => void }) {
-  const [formState, formAction] = useFormState(
+  const [formState, formAction] = useActionState(
     client ? editClient : addClient,
     null
   );
