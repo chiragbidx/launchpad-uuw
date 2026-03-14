@@ -33,15 +33,17 @@ interface FeatureProps {
   description: string;
 }
 
-// Landing page logo config.
-// Update these values to customize the navbar logo name and icon styling.
 const LANDING_LOGO = {
-  name: "Panda",
+  name: "Marketraze",
   iconClassName:
-    "bg-gradient-to-tr border-secondary from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white",
+    "bg-gradient-to-tr border-secondary from-[#F8902A] via-[#F8902A]/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white",
 };
 
 const routeList: RouteProps[] = [
+  {
+    href: "/#features",
+    label: "Features",
+  },
   {
     href: "/#testimonials",
     label: "Testimonials",
@@ -62,16 +64,24 @@ const routeList: RouteProps[] = [
 
 const featureList: FeatureProps[] = [
   {
-    title: "Auth, Billing, Teams",
-    description: "Production-ready flows for sign-in, subscriptions, and organizations.",
+    title: "Multi-Client Dashboard",
+    description: "Switch between client workspaces, segment data, and manage permissions effortlessly.",
   },
   {
-    title: "UI + Design System",
-    description: "Shadcn-based components with consistent theming and dark mode support.",
+    title: "Campaign Planning & Execution",
+    description: "Calendar-based orchestration, task boards, timelines, and status tracking.",
   },
   {
-    title: "Deploy Fast",
-    description: "Sane defaults for Next.js, TypeScript, and Vercel-first deployment.",
+    title: "AI-Powered Marketing Agents",
+    description: "Automate research, copywriting, and workflow routing with built-in AIs.",
+  },
+  {
+    title: "Asset & Content Management",
+    description: "Centralized repository for assets, creative, and brand resources.",
+  },
+  {
+    title: "Real-Time Analytics",
+    description: "Unified view of campaign results, spend, engagement and client ROI.",
   },
 ];
 
@@ -154,16 +164,16 @@ export const Navbar = () => {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="bg-card text-base">
-              Features
+              Platform
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className="grid w-[600px] grid-cols-2 gap-5 p-4">
+              <div className="grid w-[700px] grid-cols-2 gap-5 p-4">
                 <Image
                   src="/demo-img.jpg"
-                  alt="Panda preview"
+                  alt="Marketraze dashboard preview"
                   className="h-full w-full rounded-md object-cover"
-                  width={600}
-                  height={600}
+                  width={700}
+                  height={480}
                 />
                 <ul className="flex flex-col gap-2">
                   {featureList.map(({ title, description }) => (
@@ -208,7 +218,7 @@ export const Navbar = () => {
         <Button asChild size="sm" variant="ghost" aria-label="View on GitHub">
           <Link
             aria-label="View on GitHub"
-            href="https://nextjs.org/docs"
+            href="https://github.com/"
             target="_blank"
           >
             <Github className="size-5" />
