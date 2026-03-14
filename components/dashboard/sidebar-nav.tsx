@@ -14,6 +14,7 @@ import {
   CreditCard,
   Settings,
   Image as ImageIcon,
+  UserPlus // Use client icon for clarity
 } from "lucide-react";
 import {
   Collapsible,
@@ -38,6 +39,7 @@ const sections: { title: string; items: NavItem[] }[] = [
       { label: "AI Assistant", href: "/dashboard/ai", icon: Bot, disabled: false },
       { label: "Analytics", href: "/dashboard/analytics", icon: BarChart2, disabled: false },
       { label: "Assets", href: "/dashboard/assets", icon: ImageIcon, disabled: false },
+      { label: "Clients", href: "/dashboard/clients", icon: UserPlus, disabled: false },
     ],
   },
   {
