@@ -16,6 +16,9 @@
       "install": {
         "caches": ["npm-install", "apt"],
         "commands": ["npm install"]
+      },
+      "build": {
+        "commands": ["echo 'Skipping production build: using dev runtime'"]
       }
     }
   }
