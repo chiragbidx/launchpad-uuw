@@ -15,6 +15,13 @@
       "when": 1773430869999,
       "tag": "0001_add_clients_table",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773430899999,
+      "tag": "0002_add_campaigns_table",
+      "breakpoints": true
     }
   ]
 }
