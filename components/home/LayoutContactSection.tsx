@@ -43,16 +43,19 @@ export const LayoutContactSection = () => {
       firstName: "",
       lastName: "",
       email: "",
-      subject: "Starter Demo",
+      subject: "Product Demo",
       message: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { firstName, lastName, email, subject, message } = values;
-    console.log(values);
-
-    const mailToLink = `mailto:hello@panda.dev?subject=${subject}&body=Hello, I am ${firstName} ${lastName}. My email is ${email}. %0D%0A${message}`;
+    // Real owner info: Chirag Dodiya (hi@chirag.co)
+    const mailToLink = `mailto:hi@chirag.co?subject=${encodeURIComponent(
+      subject
+    )}&body=Hello, I am ${firstName} ${lastName}. My email is ${email}.%0D%0A${encodeURIComponent(
+      message
+    )}`;
 
     window.location.assign(mailToLink);
   }
@@ -66,18 +69,17 @@ export const LayoutContactSection = () => {
               Contact
             </h2>
 
-            <h2 className="text-3xl md:text-4xl font-bold">Talk to the Panda team</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Connect with Marketraze</h2>
           </div>
           <p className="mb-8 text-muted-foreground lg:w-5/6">
-            Need help customizing the starter, planning architecture, or
-            accelerating launch? Share your goals and timeline.
+            Have questions about Marketraze or want a tailored demo? Complete the form and our team (Chirag Dodiya) will reach you at hi@chirag.co.
           </p>
 
           <div className="flex flex-col gap-4">
             <div>
               <div className="flex gap-2 mb-1">
                 <Building2 />
-                <div className="font-bold">Find us</div>
+                <div className="font-bold">Office</div>
               </div>
 
               <div>Remote-first • San Francisco, CA</div>
@@ -86,25 +88,25 @@ export const LayoutContactSection = () => {
             <div>
               <div className="flex gap-2 mb-1">
                 <Phone />
-                <div className="font-bold">Call us</div>
+                <div className="font-bold">Phone</div>
               </div>
 
-              <div>+1 (415) 555-0199</div>
+              <div>{" "}</div>
             </div>
 
             <div>
               <div className="flex gap-2 mb-1">
                 <Mail />
-                <div className="font-bold">Email us</div>
+                <div className="font-bold">Email</div>
               </div>
 
-              <div>hello@panda.dev</div>
+              <div>hi@chirag.co</div>
             </div>
 
             <div>
               <div className="flex gap-2">
                 <Clock />
-                <div className="font-bold">Visit us</div>
+                <div className="font-bold">Hours</div>
               </div>
 
               <div>
@@ -131,7 +133,7 @@ export const LayoutContactSection = () => {
                       <FormItem className="w-full">
                         <FormLabel>First Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Leopoldo" {...field} />
+                          <Input placeholder="Jane" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -144,7 +146,7 @@ export const LayoutContactSection = () => {
                       <FormItem className="w-full">
                         <FormLabel>Last Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Miranda" {...field} />
+                          <Input placeholder="Doe" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -162,7 +164,7 @@ export const LayoutContactSection = () => {
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="you@company.com"
+                            placeholder="you@agency.com"
                             {...field}
                           />
                         </FormControl>
@@ -189,18 +191,17 @@ export const LayoutContactSection = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="Starter Demo">
-                              Starter Demo
+                            <SelectItem value="Product Demo">
+                              Product Demo
                             </SelectItem>
-                            <SelectItem value="Architecture Review">
-                              Architecture Review
+                            <SelectItem value="Pricing & Plans">
+                              Pricing & Plans
                             </SelectItem>
-                            <SelectItem value="Design System">
-                              Design System
+                            <SelectItem value="Platform Features">
+                              Platform Features
                             </SelectItem>
-                            <SelectItem value="Billing Integration">Billing Integration</SelectItem>
-                            <SelectItem value="Enterprise Plan">
-                              Enterprise Plan
+                            <SelectItem value="Customer Success">
+                              Customer Success
                             </SelectItem>
                           </SelectContent>
                         </Select>
@@ -220,7 +221,7 @@ export const LayoutContactSection = () => {
                         <FormControl>
                           <Textarea
                             rows={5}
-                            placeholder="Tell us about your SaaS idea, stage, and timeline..."
+                            placeholder="Please share your agency's goals and needs..."
                             className="resize-none"
                             {...field}
                           />
