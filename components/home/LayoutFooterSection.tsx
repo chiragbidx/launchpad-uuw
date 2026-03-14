@@ -9,22 +9,22 @@ export const LayoutFooterSection = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-x-12 gap-y-8">
           <div className="col-span-full xl:col-span-2">
             <Link href="#" className="flex font-bold items-center">
-              <ChevronsDownIcon className="w-9 h-9 mr-2 bg-gradient-to-tr from-primary via-primary/70 to-primary rounded-lg border border-secondary" />
+              <ChevronsDownIcon className="w-9 h-9 mr-2 bg-gradient-to-tr from-[#F8902A] via-primary/70 to-primary rounded-lg border border-secondary" />
 
-              <h3 className="text-2xl">Panda</h3>
+              <h3 className="text-2xl">Marketraze</h3>
             </Link>
           </div>
 
           <div className="flex flex-col gap-2">
             <h3 className="font-bold text-lg">Contact</h3>
             <div>
-              <Link href="mailto:hello@panda.dev" className="opacity-60 hover:opacity-100">
-                hello@panda.dev
+              <Link href="mailto:hi@chirag.co" className="opacity-60 hover:opacity-100">
+                hi@chirag.co
               </Link>
             </div>
 
             <div>
-              <Link href="#" className="opacity-60 hover:opacity-100">
+              <Link href="https://github.com/" className="opacity-60 hover:opacity-100">
                 Github
               </Link>
             </div>
@@ -100,7 +100,7 @@ export const LayoutFooterSection = () => {
 
             <div>
               <Link href="https://x.com" className="opacity-60 hover:opacity-100">
-                X
+                X (Twitter)
               </Link>
             </div>
           </div>
@@ -109,7 +109,7 @@ export const LayoutFooterSection = () => {
         <Separator className="my-6" />
         <section className="">
           <h3 className="">
-            &copy; 2026 Panda SaaS App Builder Starter.
+            &copy; 2026 Marketraze. <span className="font-normal">Created by Chirag Dodiya.</span>
             <Link
               target="_blank"
               href="https://nextjs.org"
