@@ -7,12 +7,17 @@ const demoStats = [
   { label: "Live Campaigns", value: 17, icon: FolderKanban, color: "bg-cyan-600/10 text-cyan-600" },
 ];
 
+const barChartColors = [
+  "#f87171", "#60a5fa", "#34d399", "#f59e42", "#a78bfa",
+  "#fbbf24", "#f472b6", "#6ee7b7", "#818cf8", "#fde68a",
+  "#5eea7b", "#ef4444"
+];
+
 const demoCharts = [
   {
     title: "Client Campaign Breakdown",
     CardIcon: PieChart,
     description: "Distribution of live campaigns across clients",
-    // For visual: Pie-baked in, value is demo
     data: [
       { label: "Acme Brands", value: 7, color: "#f87171" },
       { label: "Shipwell Logistics", value: 5, color: "#60a5fa" },
@@ -23,15 +28,16 @@ const demoCharts = [
     title: "Monthly Campaign Growth",
     CardIcon: BarChart2,
     description: "Growth in new campaigns, last 12 months",
+    // Now using the normalized shape: { label, value, color }
     data: [
-      { month: "Jan", value: 2 },
-      { month: "Feb", value: 3 },
-      { month: "Mar", value: 4 },
-      { month: "Apr", value: 4 },
-      { month: "May", value: 5 },
-      { month: "Jun", value: 6 },
-      { month: "Jul", value: 8 },
-      { month: "Aug", value: 12 },
+      { label: "Jan", value: 2, color: barChartColors[0] },
+      { label: "Feb", value: 3, color: barChartColors[1] },
+      { label: "Mar", value: 4, color: barChartColors[2] },
+      { label: "Apr", value: 4, color: barChartColors[3] },
+      { label: "May", value: 5, color: barChartColors[4] },
+      { label: "Jun", value: 6, color: barChartColors[5] },
+      { label: "Jul", value: 8, color: barChartColors[6] },
+      { label: "Aug", value: 12, color: barChartColors[7] },
     ],
   },
 ];
@@ -75,30 +81,30 @@ function DemoPieChart({ data }: { data: { label: string; value: number; color: s
   );
 }
 
-function DemoBarChart({ data }: { data: { month: string; value: number }[] }) {
+function DemoBarChart({ data }: { data: { label: string; value: number; color: string }[] }) {
   const maxVal = Math.max(...data.map((d) => d.value));
   return (
     <svg viewBox="0 0 130 60" height="60" width="130" className="w-full my-2">
       {data.map((d, idx) => (
         <rect
-          key={d.month}
+          key={d.label}
           x={10 + idx * 15}
           y={60 - (d.value / maxVal) * 50}
           width={8}
           height={(d.value / maxVal) * 50}
-          fill="hsl(var(--primary))"
+          fill={d.color ?? "hsl(var(--primary))"}
         />
       ))}
       {data.map((d, idx) => (
         <text
-          key={d.month}
+          key={d.label}
           x={10 + idx * 15 + 4}
           y={58}
           textAnchor="middle"
           fontSize={8}
           fill="#888"
         >
-          {d.month[0]}
+          {d.label[0]}
         </text>
       ))}
     </svg>
