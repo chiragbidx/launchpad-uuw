@@ -15,6 +15,10 @@ import {
   TrendingUp,
   Users,
   Zap,
+  Building2,
+  BarChart2,
+  Bot,
+  Image as ImageIcon,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +33,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
+// Updated metrics and onboarding for agencies/consultants
 type Metric = {
   label: string;
   value: string;
@@ -52,70 +57,70 @@ type ActivityItem = {
 };
 
 const metrics: Metric[] = [
-  { label: "Total Users", value: "2,847", trend: "+12.4%", icon: Users, description: "vs last month" },
-  { label: "Active Projects", value: "184", trend: "+6.1%", icon: FolderKanban, description: "vs last month" },
-  { label: "Revenue", value: "$48,290", trend: "+18.2%", icon: DollarSign, description: "vs last month" },
-  { label: "Growth Rate", value: "24.5%", trend: "+3.1%", icon: TrendingUp, description: "vs last month" },
+  { label: "Active Clients", value: "8", trend: "+1", icon: Building2, description: "vs last month" },
+  { label: "Active Campaigns", value: "17", trend: "+5", icon: FolderKanban, description: "vs last week" },
+  { label: "Delivered Assets", value: "156", trend: "+14", icon: ImageIcon, description: "in last 30 days" },
+  { label: "Avg. Campaign ROI", value: "314%", trend: "+12%", icon: BarChart2, description: "this quarter" },
 ];
 
 const onboardingSteps: OnboardingStep[] = [
-  { title: "Complete your profile", description: "Add your name and contact details.", href: "/dashboard/settings", done: false },
-  { title: "Invite team members", description: "Collaborate by sending invitations.", href: "/dashboard/team", done: false },
-  { title: "Connect an integration", description: "Link external tools and services.", href: "#", done: false },
-  { title: "Set up billing", description: "Add a payment method for premium.", href: "#", done: false },
+  { title: "Add your first client", description: "Onboard a new client or brand.", href: "/dashboard/workspaces", done: false },
+  { title: "Create a campaign", description: "Start your first marketing initiative.", href: "/dashboard/campaigns", done: false },
+  { title: "Invite your team", description: "Collaborate with account managers.", href: "/dashboard/team", done: false },
+  { title: "Try the AI assistant", description: "Get content ideas or run a marketing automation.", href: "/dashboard/ai", done: false },
 ];
 
 const recentActivity: ActivityItem[] = [
-  { title: "New user signup", detail: "sarah@acme.dev created an account", time: "2 min ago", icon: Users },
-  { title: "Plan upgraded", detail: "starter@pulsehq.com moved to Pro", time: "28 min ago", icon: Zap },
-  { title: "Invoice paid", detail: "INV-2487 was paid — $299.00", time: "1 hr ago", icon: DollarSign },
-  { title: "Team invited", detail: "3 users invited to workspace", time: "3 hr ago", icon: Users },
-  { title: "Project created", detail: "New project 'Q2 Campaign'", time: "5 hr ago", icon: FolderKanban },
+  { title: "Campaign Launched", detail: "“Holiday ROI Sprint” for Acme Agency", time: "15 min ago", icon: FolderKanban },
+  { title: "Client Onboarded", detail: "Shipwell joined as new client", time: "2 hr ago", icon: Building2 },
+  { title: "Asset Approved", detail: "PR-Files.jpg approved by client", time: "3 hr ago", icon: ImageIcon },
+  { title: "Team member added", detail: "Alex Smith joined your workspace", time: "5 hr ago", icon: Users },
+  { title: "AI assistant used", detail: "Generated blog ideas for FinIQ", time: "6 hr ago", icon: Bot },
 ];
 
 const quickActions = [
-  { label: "Invite a member", href: "/dashboard/team", icon: Users },
-  { label: "Account settings", href: "/dashboard/settings", icon: Activity },
-  { label: "View activity", href: "#", icon: Bell },
+  { label: "Add Client", href: "/dashboard/workspaces", icon: Building2 },
+  { label: "Plan Campaign", href: "/dashboard/campaigns", icon: FolderKanban },
+  { label: "Launch AI", href: "/dashboard/ai", icon: Bot },
 ];
 
 const weeklyData = [
-  { day: "Mon", users: 42, revenue: 320 },
-  { day: "Tue", users: 58, revenue: 480 },
-  { day: "Wed", users: 35, revenue: 290 },
-  { day: "Thu", users: 72, revenue: 610 },
-  { day: "Fri", users: 63, revenue: 520 },
-  { day: "Sat", users: 28, revenue: 180 },
-  { day: "Sun", users: 18, revenue: 140 },
+  { day: "Mon", campaigns: 2, assets: 8 },
+  { day: "Tue", campaigns: 3, assets: 11 },
+  { day: "Wed", campaigns: 1, assets: 6 },
+  { day: "Thu", campaigns: 5, assets: 14 },
+  { day: "Fri", campaigns: 4, assets: 13 },
+  { day: "Sat", campaigns: 2, assets: 5 },
+  { day: "Sun", campaigns: 0, assets: 3 },
 ];
 
-const monthlyRevenue = [
-  { month: "Jan", value: 12400 },
-  { month: "Feb", value: 15800 },
-  { month: "Mar", value: 14200 },
-  { month: "Apr", value: 18600 },
-  { month: "May", value: 22100 },
-  { month: "Jun", value: 19800 },
-  { month: "Jul", value: 24500 },
-  { month: "Aug", value: 28300 },
-  { month: "Sep", value: 26100 },
-  { month: "Oct", value: 31200 },
-  { month: "Nov", value: 35800 },
-  { month: "Dec", value: 48290 },
+const monthlyROI = [
+  { month: "Jan", value: 192 },
+  { month: "Feb", value: 237 },
+  { month: "Mar", value: 278 },
+  { month: "Apr", value: 241 },
+  { month: "May", value: 312 },
+  { month: "Jun", value: 314 },
+  { month: "Jul", value: 359 },
+  { month: "Aug", value: 388 },
+  { month: "Sep", value: 325 },
+  { month: "Oct", value: 415 },
+  { month: "Nov", value: 467 },
+  { month: "Dec", value: 492 },
 ];
 
 function BarChart({ data }: { data: typeof weeklyData }) {
-  const maxUsers = Math.max(...data.map((d) => d.users));
+  const maxCampaigns = Math.max(...data.map((d) => d.campaigns));
   const barWidth = 100 / data.length;
 
   return (
     <div className="space-y-2">
       <div className="flex items-end gap-1.5 h-[140px]">
         {data.map((d, i) => {
-          const height = (d.users / maxUsers) * 100;
+          const height = (d.campaigns / maxCampaigns) * 100;
           return (
             <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
-              <span className="text-[10px] text-muted-foreground font-medium">{d.users}</span>
+              <span className="text-[10px] text-muted-foreground font-medium">{d.campaigns}</span>
               <div
                 className="w-full rounded-t-md bg-primary/80 transition-all hover:bg-primary min-h-[4px]"
                 style={{ height: `${height}%` }}
@@ -135,7 +140,7 @@ function BarChart({ data }: { data: typeof weeklyData }) {
   );
 }
 
-function AreaChart({ data }: { data: typeof monthlyRevenue }) {
+function AreaChart({ data }: { data: typeof monthlyROI }) {
   const maxVal = Math.max(...data.map((d) => d.value));
   const minVal = Math.min(...data.map((d) => d.value)) * 0.8;
   const range = maxVal - minVal;
@@ -200,7 +205,7 @@ export function DashboardContent({ greeting, firstName }: { greeting: string; fi
 
   const showMetrics = filteredMetrics.length > 0;
   const showOnboarding = filteredSteps.length > 0;
-  const showCharts = !query || matchesQuery(query, "performance", "chart", "graph", "revenue", "engagement", "weekly", "monthly");
+  const showCharts = !query || matchesQuery(query, "campaign", "analytics", "chart", "graph", "roi", "weekly", "monthly");
   const showActivity = filteredActivity.length > 0;
   const noResults = !showMetrics && !showOnboarding && !showCharts && !showActivity;
 
@@ -214,7 +219,7 @@ export function DashboardContent({ greeting, firstName }: { greeting: string; fi
               {greeting}, {firstName}
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Here&apos;s what&apos;s happening across your workspace today.
+              Manage all your agency clients, campaigns, and assets in one command center.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -242,7 +247,7 @@ export function DashboardContent({ greeting, firstName }: { greeting: string; fi
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search dashboard..."
+            placeholder="Search your dashboard..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="pl-9 h-10 bg-muted/50 border-muted-foreground/15 focus-visible:border-border focus-visible:bg-background"
@@ -300,12 +305,12 @@ export function DashboardContent({ greeting, firstName }: { greeting: string; fi
             <Card className="lg:col-span-2">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Getting Started</CardTitle>
+                  <CardTitle className="text-base">Onboarding</CardTitle>
                   <Badge variant="outline" className="text-xs">
                     0 / {onboardingSteps.length}
                   </Badge>
                 </div>
-                <CardDescription>Complete these steps to set up your workspace.</CardDescription>
+                <CardDescription>Set up your agency workspace in Marketraze.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-1">
                 {filteredSteps.map((step) => (
@@ -335,11 +340,11 @@ export function DashboardContent({ greeting, firstName }: { greeting: string; fi
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-base">Weekly Signups</CardTitle>
-                    <CardDescription>New user registrations this week</CardDescription>
+                    <CardTitle className="text-base">Weekly Campaigns</CardTitle>
+                    <CardDescription>Launched campaigns this week</CardDescription>
                   </div>
                   <Badge variant="outline" className="text-xs font-medium">
-                    316 total
+                    17 total
                   </Badge>
                 </div>
               </CardHeader>
@@ -351,24 +356,24 @@ export function DashboardContent({ greeting, firstName }: { greeting: string; fi
         </div>
       )}
 
-      {/* Revenue chart */}
+      {/* ROI chart */}
       {showCharts && (
         <div className="mb-8">
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-base">Revenue Overview</CardTitle>
-                  <CardDescription>Monthly revenue for the current year</CardDescription>
+                  <CardTitle className="text-base">Campaign ROI</CardTitle>
+                  <CardDescription>Monthly ROI for all client accounts</CardDescription>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-bold tracking-tight">$48,290</p>
-                  <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">+18.2% from last month</p>
+                  <p className="text-lg font-bold tracking-tight">314%</p>
+                  <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">+12% from last quarter</p>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <AreaChart data={monthlyRevenue} />
+              <AreaChart data={monthlyROI} />
             </CardContent>
           </Card>
         </div>
@@ -381,7 +386,7 @@ export function DashboardContent({ greeting, firstName }: { greeting: string; fi
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-base">Recent Activity</CardTitle>
-                <CardDescription>Latest events across your workspace</CardDescription>
+                <CardDescription>Latest events across your agency workspace</CardDescription>
               </div>
               <Button variant="ghost" size="sm" className="gap-1.5 text-xs" disabled>
                 View all
