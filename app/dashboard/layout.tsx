@@ -45,13 +45,12 @@ export default async function DashboardLayout({
         <aside className="hidden w-[264px] shrink-0 border-r bg-card/50 md:flex md:flex-col">
           <div className="p-5">
             <div className="flex items-center gap-2.5">
-              <div className="grid size-8 place-items-center rounded-lg bg-foreground text-background text-sm font-bold shadow-sm">
-                P
+              <div className="grid size-8 place-items-center rounded-lg bg-primary text-background text-sm font-bold shadow-sm">
+                MZ
               </div>
-              <span className="font-semibold tracking-tight">Panda Admin</span>
+              <span className="font-semibold tracking-tight">Marketraze</span>
             </div>
           </div>
-
           <div className="flex-1 overflow-y-auto px-3 py-4">
             <SidebarNav />
           </div>
