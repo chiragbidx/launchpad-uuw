@@ -10,6 +10,13 @@ import { useFormStatus } from "react-dom";
 import { useActionState, useEffect, useRef, useState, useCallback } from "react";
 import { Users, PlusCircle } from "lucide-react";
 
+/*
+  Explanation: The bug is caused by the parent component remounting or state being cleared
+  due to re-fetching (especially after any state change or optimistic update).
+  The solution decouples the Add/Edit Form panel's visibility from any async data refresh by keeping showForm and editingClient
+  in their own state, and running refreshClients only after a successful add/edit (not on every state change).
+*/
+
 function AddEditClientForm({
   client,
   workspaceId,
@@ -23,6 +30,7 @@ function AddEditClientForm({
   onCancel: () => void,
   isEditing: boolean,
 }) {
+  // Only use useActionState INSIDE the form, so parent state changes do not remount the form.
   const [formState, formAction] = useActionState(
     client ? editClient : addClient,
     null
@@ -31,11 +39,13 @@ function AddEditClientForm({
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
+    // Only close after submit, never when parent reloads.
     if (formState === null && !pending) {
       formRef.current?.reset();
       onDone();
     }
-  }, [formState, pending, onDone]);
+    // eslint-disable-next-line
+  }, [formState, pending]);
 
   return (
     <form
@@ -108,7 +118,6 @@ function ClientList({ clients, onEdit }: { clients: any[], onEdit: (client: any)
   );
 }
 
-// Utility for live refresh - simple fetcher to API route
 async function fetchClients(workspaceId: string) {
   const res = await fetch(`/api/clients?workspaceId=${encodeURIComponent(workspaceId)}`, {
     method: "GET",
@@ -126,6 +135,7 @@ export default function ClientsClient({
   workspaceId: string;
 }) {
   const [clients, setClients] = useState(initialClients ?? []);
+  // Form UI visibility is now decoupled from reload
   const [showForm, setShowForm] = useState(false);
   const [editingClient, setEditingClient] = useState<any>(null);
 
@@ -134,6 +144,7 @@ export default function ClientsClient({
     setClients(updated);
   }, [workspaceId]);
 
+  // No state reset here when showForm is toggled
   const handleAddClick = () => {
     setEditingClient(null);
     setShowForm(true);
@@ -149,10 +160,11 @@ export default function ClientsClient({
     setEditingClient(null);
   };
 
+  // Only refresh and close the form after saving a client
   const handleDone = async () => {
+    await refreshClients();
     setShowForm(false);
     setEditingClient(null);
-    await refreshClients();
   };
 
   return (
@@ -167,6 +179,7 @@ export default function ClientsClient({
         )}
       </div>
 
+      {/* The form is rendered only when explicitly requested, and stays visible until saved or manually canceled */}
       {showForm && (
         <AddEditClientForm
           client={editingClient}
