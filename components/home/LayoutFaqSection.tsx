@@ -13,30 +13,30 @@ interface FAQProps {
 
 const FAQList: FAQProps[] = [
   {
-    question: "Is Panda free to start with?",
-    answer: "Yes. You can start with the core template and customize it for your product.",
+    question: "Who is Marketraze for?",
+    answer: "Marketraze is built for marketing agencies, freelance consultants, and teams managing multiple clients or brands.",
     value: "item-1",
   },
   {
-    question: "Can I use this for a production SaaS app?",
+    question: "How does Marketraze use AI in marketing?",
     answer:
-      "Yes. The starter is designed for production-minded teams with scalable structure and reusable UI patterns.",
+      "AI agents in Marketraze automate research, content creation, workflow suggestions, analytics, and reporting—speeding up execution and improving outcomes.",
     value: "item-2",
   },
   {
-    question: "Does it support dark mode and responsive design?",
+    question: "Can I manage unlimited clients?",
     answer:
-      "Yes. The template includes theme support and responsive layouts across major sections.",
+      "Yes, you can onboard and manage as many clients and brands as your team serves. Each workspace is fully segregated.",
     value: "item-3",
   },
   {
-    question: "Can I plug in my own auth and billing provider?",
-    answer: "Yes. The structure is provider-agnostic and easy to adapt for your stack.",
+    question: "Is my data secure and private?",
+    answer: "Absolutely. Marketraze uses enterprise-grade security patterns. All assets are isolated and access is role-based.",
     value: "item-4",
   },
   {
-    question: "How quickly can I launch with Panda?",
-    answer: "Most teams can ship an MVP in days by reusing existing sections and starter patterns.",
+    question: "Does Marketraze support collaboration?",
+    answer: "Yes, teams and client stakeholders can collaborate, share assets, assign tasks, and leave feedback—all in one place.",
     value: "item-5",
   },
 ];
