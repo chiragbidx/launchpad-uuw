@@ -13,28 +13,26 @@ export const LayoutHeroSection = () => {
             <span className="mr-2 text-primary">
               <Badge>Launch</Badge>
             </span>
-            <span>Panda SaaS starter is ready</span>
+            <span>Introducing Marketraze</span>
           </Badge>
 
           <div className="max-w-screen-md mx-auto text-center text-4xl md:text-6xl font-bold">
             <h1>
-              Build your next
-              <span className="text-transparent px-2 bg-gradient-to-r from-[#D247BF] to-primary bg-clip-text">
-                SaaS
+              The all-in-one <span className="text-transparent px-2 bg-gradient-to-r from-[#F8902A] to-primary bg-clip-text">
+                Marketing Agent Portal
               </span>
-              app in days, not weeks
+              for modern agencies
             </h1>
           </div>
 
           <p className="max-w-screen-sm mx-auto text-xl text-muted-foreground">
-            Panda gives you authentication, billing-ready patterns, team flows,
-            and polished UI foundations so you can ship faster with confidence.
+            Effortlessly manage clients, campaigns, reports, assets, and AI-powered marketing workflows—all from one intuitive dashboard built for growth teams and agencies.
           </p>
 
           <div className="space-y-4 md:space-y-0 md:space-x-4">
             <Button asChild className="w-5/6 md:w-1/4 font-bold group/arrow">
-              <Link href="#pricing">
-                Start Building
+              <Link href="#contact">
+                Get Started
                 <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
               </Link>
             </Button>
@@ -45,27 +43,27 @@ export const LayoutHeroSection = () => {
               className="w-5/6 md:w-1/4 font-bold"
             >
               <Link href="#features">
-                Explore features
+                Explore Features
               </Link>
             </Button>
           </div>
         </div>
 
         <div className="relative group mt-14">
-          <div className="absolute top-2 lg:-top-8 left-1/2 transform -translate-x-1/2 w-[90%] mx-auto h-24 lg:h-80 bg-primary/50 rounded-full blur-3xl"></div>
+          <div className="absolute top-2 lg:-top-8 left-1/2 transform -translate-x-1/2 w-[90%] mx-auto h-24 lg:h-80 bg-orange-400/40 rounded-full blur-3xl"></div>
           <Image
             width={1200}
-            height={1200}
-            className="w-full md:w-[1200px] mx-auto rounded-lg relative rouded-lg leading-none flex items-center border border-t-2 border-secondary border-t-primary/30 dark:hidden"
+            height={700}
+            className="w-full md:w-[1100px] mx-auto rounded-lg relative rouded-lg leading-none flex items-center border border-t-2 border-secondary border-t-primary/30 dark:hidden"
             src="/hero-image-light.jpeg"
-            alt="Panda dashboard preview"
+            alt="Marketraze dashboard"
           />
           <Image
             width={1200}
-            height={1200}
-            className="hidden w-full md:w-[1200px] mx-auto rounded-lg relative rouded-lg leading-none border border-t-2 border-secondary border-t-primary/30 dark:block"
+            height={700}
+            className="hidden w-full md:w-[1100px] mx-auto rounded-lg relative rouded-lg leading-none border border-t-2 border-secondary border-t-primary/30 dark:block"
             src="/hero-image-dark.jpeg"
-            alt="Panda dashboard preview"
+            alt="Marketraze dashboard"
           />
 
           <div className="absolute bottom-0 left-0 w-full h-20 md:h-28 bg-gradient-to-b from-background/0 via-background/50 to-background rounded-lg"></div>
