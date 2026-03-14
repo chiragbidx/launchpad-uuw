@@ -6,9 +6,14 @@ import { usePathname } from "next/navigation";
 import {
   ChevronDown,
   Home,
-  Settings,
+  Building2,
+  FolderKanban,
+  Bot,
+  BarChart2,
   Users,
   CreditCard,
+  Settings,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   Collapsible,
@@ -25,13 +30,18 @@ type NavItem = {
 
 const sections: { title: string; items: NavItem[] }[] = [
   {
-    title: "Platform",
+    title: "Dashboard",
     items: [
       { label: "Overview", href: "/dashboard", icon: Home },
+      { label: "Workspaces", href: "/dashboard/workspaces", icon: Building2, disabled: false },
+      { label: "Campaigns", href: "/dashboard/campaigns", icon: FolderKanban, disabled: false },
+      { label: "AI Assistant", href: "/dashboard/ai", icon: Bot, disabled: false },
+      { label: "Analytics", href: "/dashboard/analytics", icon: BarChart2, disabled: false },
+      { label: "Assets", href: "/dashboard/assets", icon: ImageIcon, disabled: false },
     ],
   },
   {
-    title: "Account",
+    title: "Management",
     items: [
       { label: "Team", href: "/dashboard/team", icon: Users },
       { label: "Billing", href: "#", icon: CreditCard, disabled: true },
