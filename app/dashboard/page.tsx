@@ -29,6 +29,7 @@ export default async function DashboardPage() {
     <DashboardContent
       greeting={getGreeting()}
       firstName={firstName}
+      // In future: pass additional props for workspace/campaign features
     />
   );
 }
