@@ -35,7 +35,7 @@ export async function addClient(
   const parsed = ClientSchema.safeParse(data);
 
   if (!parsed.success) {
-    return { error: parsed.error.errors.map((e) => e.message).join(", ") };
+    return { error: parsed.error.issues.map((issue) => issue.message).join(", ") };
   }
 
   const clientInput = {
@@ -60,7 +60,7 @@ export async function editClient(
   const parsed = ClientSchema.safeParse(data);
 
   if (!parsed.success) {
-    return { error: parsed.error.errors.map((e) => e.message).join(", ") };
+    return { error: parsed.error.issues.map((issue) => issue.message).join(", ") };
   }
 
   if (!parsed.data.id) {
