@@ -16,20 +16,23 @@ import {
   DialogTitle,
   DialogClose,
   DialogDescription,
-  DialogFooter,
-  DialogTrigger,
+  DialogFooter
 } from "@/components/ui/dialog";
 
 function AddEditClientForm({
   client,
   workspaceId,
   onDone,
+  onCancel,
   isEditing,
+  keepOpenOnError,
 }: {
   client?: any,
   workspaceId: string,
   onDone: (newClient?: any) => void,
+  onCancel: () => void,
   isEditing: boolean,
+  keepOpenOnError: boolean
 }) {
   // Only use useActionState INSIDE the form, so parent state changes do not remount the form.
   const [formState, formAction] = useActionState(
@@ -39,14 +42,14 @@ function AddEditClientForm({
   const { pending } = useFormStatus();
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Only close modal if submit succeeded (no error)
   useEffect(() => {
-    // Only close after submit, never when parent reloads.
-    if (formState === null && !pending) {
+    if (!pending && formState === null) {
       formRef.current?.reset();
       onDone();
     }
     // eslint-disable-next-line
-  }, [formState, pending]);
+  }, [formState, pending, onDone]);
 
   return (
     <form
@@ -83,11 +86,9 @@ function AddEditClientForm({
         <Button type="submit" disabled={pending}>
           {pending ? "Saving..." : client ? "Update Client" : "Add Client"}
         </Button>
-        <DialogClose asChild>
-          <Button type="button" variant="ghost" disabled={pending}>
-            Cancel
-          </Button>
-        </DialogClose>
+        <Button type="button" variant="ghost" disabled={pending} onClick={onCancel}>
+          Cancel
+        </Button>
       </DialogFooter>
       {formState?.error && (
         <p className="text-sm text-red-600">{formState.error}</p>
@@ -157,12 +158,19 @@ export default function ClientsClient({
   };
 
   const handleDialogChange = (open: boolean) => {
+    // Only allow manual user close (cancel or click out) to hide, otherwise open stays true on error.
     setDialogOpen(open);
     if (!open) setEditingClient(null);
   };
 
   const handleDone = async () => {
+    // Only runs after successful add/edit (never on error/cancel).
     await refreshClients();
+    setDialogOpen(false);
+    setEditingClient(null);
+  };
+
+  const handleCancel = () => {
     setDialogOpen(false);
     setEditingClient(null);
   };
@@ -199,7 +207,9 @@ export default function ClientsClient({
             client={editingClient}
             workspaceId={workspaceId}
             onDone={handleDone}
+            onCancel={handleCancel}
             isEditing={!!editingClient}
+            keepOpenOnError
           />
         </DialogContent>
       </Dialog>
