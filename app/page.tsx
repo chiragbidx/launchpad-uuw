@@ -1,4 +1,4 @@
-// Server Component: keep layout/content server-rendered; sections are data-driven.
+// Server Component: Marketraze landing, production-grade.
 import { LayoutBenefitsSection } from "../components/home/LayoutBenefitsSection";
 import { LayoutContactSection } from "../components/home/LayoutContactSection";
 import { LayoutFaqSection } from "../components/home/LayoutFaqSection";
@@ -13,8 +13,6 @@ import { LayoutTestimonialSection } from "../components/home/LayoutTestimonialSe
 import { Navbar as LayoutNavbar } from "@/components/layout/navbar";
 
 export default function Home() {
-  // Simple toggles so agents/users can hide sections without touching JSX.
-  // Use ONLY_SECTIONS (comma list) to whitelist, or HIDE_SECTIONS to blacklist.
   const only = (process.env.ONLY_SECTIONS ?? "")
     .split(",")
     .map((s) => s.trim().toLowerCase())
@@ -26,9 +24,9 @@ export default function Home() {
   const defaultHide: string[] = [];
   const whitelist = only.length ? new Set(only) : null;
   const hide = new Set(whitelist ? envHide : [...defaultHide, ...envHide]);
+  // Updated Marketraze sections below:
   const sections = [
     ["layout-hero", <LayoutHeroSection key="layout-hero" />],
-    ["layout-sponsors", <LayoutSponsorsSection key="layout-sponsors" />],
     ["layout-benefits", <LayoutBenefitsSection key="layout-benefits" />],
     ["layout-features", <LayoutFeatureGridSection key="layout-features" />],
     ["layout-services", <LayoutServicesSection key="layout-services" />],
@@ -44,13 +42,12 @@ export default function Home() {
     .filter(([id]) => !hide.has(id));
 
   return (
-    <div className="home-dark min-h-screen bg-gradient-to-b from-zinc-50 via-white to-[#ffe6d8] text-zinc-900 transition-colors dark:from-[#120d0b] dark:via-[#16100d] dark:to-[#1f1612] dark:text-[#f7efe8]">
+    <div className="home-dark min-h-screen bg-gradient-to-b from-zinc-50 via-white to-[#ffe6d8] text-zinc-900 transition-colors dark:from-[#111014] dark:via-[#18161e] dark:to-[#0c0c0e] dark:text-[#f0eeee]">
       <LayoutNavbar />
       <main className="flex min-h-screen w-full flex-col gap-12 px-6 py-12 sm:px-10 lg:px-16 lg:max-w-[1600px] lg:mx-auto">
         {visibleSections.map(([, node]) => node)}
       </main>
 
-      {/* lightweight animations defined locally to avoid tailwind config changes */}
       <style>{`
         @keyframes float {
           0% { transform: translateY(0px); }
