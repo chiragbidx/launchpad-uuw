@@ -21,140 +21,70 @@ interface SocialNetworkProps {
   name: string;
   url: string;
 }
+
+// Marketraze branding: Chirag Dodiya as founder, update team for transparency
 export const LayoutTeamSection = () => {
   const teamList: TeamProps[] = [
     {
       imageUrl: "/team1.jpg",
-      firstName: "Leo",
-      lastName: "Miranda",
-      positions: ["Lead Engineer", "Starter Architecture"],
+      firstName: "Chirag",
+      lastName: "Dodiya",
+      positions: ["Founder", "Product", "Engineering"],
       socialNetworks: [
         {
           name: "LinkedIn",
-          url: "https://www.linkedin.com/in/leopoldo-miranda/",
+          url: "https://www.linkedin.com/in/chiragdodiya/",
         },
         {
           name: "Github",
-          url: "https://github.com/leoMirandaa",
+          url: "https://github.com/chiragdodiya",
         },
         {
           name: "X",
-          url: "https://x.com/leo_mirand4",
+          url: "https://x.com/chiragdodiya",
         },
       ],
     },
     {
       imageUrl: "/team2.jpg",
-      firstName: "Elizabeth",
-      lastName: "Moore",
-      positions: ["Product Designer"],
+      firstName: "Maya",
+      lastName: "Singh",
+      positions: ["Customer Success"],
       socialNetworks: [
         {
           name: "LinkedIn",
-          url: "https://www.linkedin.com/in/leopoldo-miranda/",
-        },
-        {
-          name: "X",
-          url: "https://x.com/leo_mirand4",
-        },
+          url: "https://www.linkedin.com/",
+        }
       ],
     },
     {
       imageUrl: "/team3.jpg",
-      firstName: "David",
-      lastName: "Diaz",
-      positions: ["Platform Engineer", "AI Integrations"],
+      firstName: "Tom",
+      lastName: "Lee",
+      positions: ["Lead Developer"],
       socialNetworks: [
         {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/leopoldo-miranda/",
-        },
-        {
           name: "Github",
-          url: "https://github.com/leoMirandaa",
-        },
+          url: "https://github.com/",
+        }
       ],
     },
     {
       imageUrl: "/team1.jpg",
-      firstName: "Sarah",
-      lastName: "Robinson",
-      positions: ["Cloud Engineer", "Kubernetes"],
+      firstName: "Priya",
+      lastName: "Nair",
+      positions: ["Marketing Partnerships"],
       socialNetworks: [
         {
           name: "LinkedIn",
-          url: "https://www.linkedin.com/in/leopoldo-miranda/",
-        },
-        {
-          name: "Github",
-          url: "https://github.com/leoMirandaa",
+          url: "https://www.linkedin.com/",
         },
         {
           name: "X",
-          url: "https://x.com/leo_mirand4",
+          url: "https://x.com/",
         },
       ],
-    },
-    {
-      imageUrl: "/team2.jpg",
-      firstName: "Michael",
-      lastName: "Holland",
-      positions: ["DevOps Engineer", "CI/CD"],
-      socialNetworks: [
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/leopoldo-miranda/",
-        },
-      ],
-    },
-    {
-      imageUrl: "/team3.jpg",
-      firstName: "Zoe",
-      lastName: "Garcia",
-      positions: ["Frontend Engineer", "Design Systems"],
-      socialNetworks: [
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/leopoldo-miranda/",
-        },
-        {
-          name: "Github",
-          url: "https://github.com/leoMirandaa",
-        },
-      ],
-    },
-    {
-      imageUrl: "/team1.jpg",
-      firstName: "Evan",
-      lastName: "James",
-      positions: ["Backend Engineer"],
-      socialNetworks: [
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/leopoldo-miranda/",
-        },
-        {
-          name: "Github",
-          url: "https://github.com/leoMirandaa",
-        },
-        {
-          name: "X",
-          url: "https://x.com/leo_mirand4",
-        },
-      ],
-    },
-    {
-      imageUrl: "/team2.jpg",
-      firstName: "Pam",
-      lastName: "Taylor",
-      positions: ["Fullstack Engineer", "Product UX"],
-      socialNetworks: [
-        {
-          name: "X",
-          url: "https://x.com/leo_mirand4",
-        },
-      ],
-    },
+    }
   ];
   const socialIcon = (socialName: string) => {
     switch (socialName) {
@@ -173,10 +103,12 @@ export const LayoutTeamSection = () => {
         <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
           Team
         </h2>
-
         <h2 className="text-3xl md:text-4xl text-center font-bold">
-          Meet the Panda team
+          Meet the Marketraze team
         </h2>
+        <h3 className="md:w-1/2 mx-auto text-xl text-center text-muted-foreground my-4">
+          Built and operated by Chirag Dodiya and a network of expert advisors & engineers.
+        </h3>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -204,22 +136,22 @@ export const LayoutTeamSection = () => {
                   <span className="text-primary ml-2">{lastName}</span>
                 </CardTitle>
               </CardHeader>
-              {positions.map((position, index) => (
+              {positions.map((position, idx) => (
                 <CardContent
-                  key={index}
+                  key={idx}
                   className={`pb-0 text-muted-foreground ${
-                    index === positions.length - 1 && "pb-6"
+                    idx === positions.length - 1 && "pb-6"
                   }`}
                 >
                   {position}
-                  {index < positions.length - 1 && <span>,</span>}
+                  {idx < positions.length - 1 && <span>,</span>}
                 </CardContent>
               ))}
 
               <CardFooter className="space-x-4 mt-auto">
-                {socialNetworks.map(({ name, url }, index) => (
+                {socialNetworks.map(({ name, url }, idx) => (
                   <Link
-                    key={index}
+                    key={idx}
                     href={url}
                     target="_blank"
                     className="hover:opacity-80 transition-all"
