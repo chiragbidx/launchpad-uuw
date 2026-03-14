@@ -22,6 +22,73 @@ const COMMANDS = {
 };
 
 let isRunning = false;
+const NPM_BUILTIN_COMMANDS = new Set([
+  "access",
+  "adduser",
+  "audit",
+  "bugs",
+  "cache",
+  "ci",
+  "config",
+  "dedupe",
+  "deprecate",
+  "dist-tag",
+  "docs",
+  "doctor",
+  "edit",
+  "exec",
+  "explain",
+  "explore",
+  "find-dupes",
+  "fund",
+  "help",
+  "help-search",
+  "hook",
+  "init",
+  "install",
+  "install-ci-test",
+  "install-test",
+  "link",
+  "ll",
+  "login",
+  "logout",
+  "ls",
+  "org",
+  "outdated",
+  "owner",
+  "pack",
+  "ping",
+  "pkg",
+  "prefix",
+  "profile",
+  "prune",
+  "publish",
+  "query",
+  "rebuild",
+  "repo",
+  "restart",
+  "root",
+  "run",
+  "run-script",
+  "sbom",
+  "search",
+  "set",
+  "shrinkwrap",
+  "star",
+  "stars",
+  "start",
+  "stop",
+  "team",
+  "test",
+  "token",
+  "uninstall",
+  "unpublish",
+  "unstar",
+  "update",
+  "version",
+  "view",
+  "whoami",
+]);
 
 export function getAvailableActions() {
   return Object.keys(COMMANDS);
@@ -87,6 +154,23 @@ function parseCommandLine(commandLine) {
   return tokens;
 }
 
+function normalizeCommand(cmd, args) {
+  if (cmd !== "npm" || args.length === 0) {
+    return { cmd, args };
+  }
+
+  const [firstArg, ...rest] = args;
+  if (firstArg.startsWith("-")) {
+    return { cmd, args };
+  }
+
+  if (NPM_BUILTIN_COMMANDS.has(firstArg)) {
+    return { cmd, args };
+  }
+
+  return { cmd, args: ["run", firstArg, ...rest] };
+}
+
 export function resolveCommand(action, args) {
   const normalizedAction = action.trim();
 
@@ -100,10 +184,11 @@ export function resolveCommand(action, args) {
   }
 
   if (Array.isArray(args)) {
+    const normalized = normalizeCommand(normalizedAction, args);
     return {
       actionLabel: normalizedAction,
-      cmd: normalizedAction,
-      args,
+      cmd: normalized.cmd,
+      args: normalized.args,
       source: "dynamic",
     };
   }
@@ -115,10 +200,11 @@ export function resolveCommand(action, args) {
     throw error;
   }
 
+  const normalized = normalizeCommand(parsed[0], parsed.slice(1));
   return {
     actionLabel: normalizedAction,
-    cmd: parsed[0],
-    args: parsed.slice(1),
+    cmd: normalized.cmd,
+    args: normalized.args,
     source: "dynamic",
   };
 }
