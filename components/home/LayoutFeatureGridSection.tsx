@@ -10,40 +10,40 @@ interface FeaturesProps {
 
 const featureList: FeaturesProps[] = [
   {
-    icon: "TabletSmartphone",
-    title: "Responsive By Default",
+    icon: "Briefcase",
+    title: "Workspace Switching",
     description:
-      "Every section is optimized for mobile and desktop without extra layout work.",
+      "Effortlessly switch between client accounts. Segregated data, assets, and permissions.",
   },
   {
-    icon: "BadgeCheck",
-    title: "Battle-Tested Patterns",
+    icon: "CalendarClock",
+    title: "Timeline Campaigns",
     description:
-      "Uses dependable UI and architecture conventions teams can maintain long-term.",
+      "Visual campaign planning: schedule, assign, and monitor marketing campaigns from a unified dashboard.",
   },
   {
-    icon: "Goal",
-    title: "Product-Focused Structure",
+    icon: "UserCog",
+    title: "Custom Roles & Permissions",
     description:
-      "Clear section hierarchy designed to communicate value and drive activation.",
+      "Fine-grained access controls for teams, clients, and collaborators.",
   },
   {
-    icon: "PictureInPicture",
-    title: "Polished Visual Foundation",
+    icon: "BrainCircuit",
+    title: "AI Automations",
     description:
-      "Modern cards, spacing, and motion cues that are easy to extend for your brand.",
+      "Integrate AI-powered assistants for copywriting, content suggestions, task routing, and reporting.",
   },
   {
-    icon: "MousePointerClick",
-    title: "Conversion-Ready CTA Flow",
+    icon: "BarChartBig",
+    title: "Unified Analytics",
     description:
-      "Strategic calls-to-action and section order help users move to signup quickly.",
+      "All your analytics in one place: performance, spend, trends, and campaign ROI.",
   },
   {
-    icon: "Newspaper",
-    title: "Documentation-Friendly",
+    icon: "Image",
+    title: "Asset Library & Content Hub",
     description:
-      "Readable code and section boundaries make onboarding new contributors easier.",
+      "Centralized and searchable—upload, manage, and share creative assets across all clients.",
   },
 ];
 
@@ -51,16 +51,15 @@ export const LayoutFeatureGridSection = () => {
   return (
     <section id="features" className="container py-24 sm:py-32">
       <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
-        Features
+        Platform Features
       </h2>
 
       <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-        What you get out of the box
+        Everything to accelerate your agency growth
       </h2>
 
       <h3 className="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8">
-        Panda combines developer speed and production-grade UX so you can spend
-        your time shipping features instead of rebuilding starter infrastructure.
+        Marketraze is purpose-built for client-centric agencies, growth marketers, and results-driven teams.
       </h3>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
