@@ -42,17 +42,9 @@ if (!fs.existsSync(".git")) {
   }
 }
 
-console.log("[supervisor] starting Next.js dev server");
+console.log("[supervisor] starting unified app + command server");
 
-// CALL NEXT DIRECTLY (NO pnpm, NO `--`)
-run("next-dev", "./node_modules/.bin/next", [
-  "dev",
-  "--turbopack",
-  "-H",
-  HOST,
-  "-p",
-  PORT,
-]);
+run("unified-server", "node", ["scripts/server.js"]);
 
 console.log("[supervisor] starting git poller");
 

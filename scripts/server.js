@@ -1,4 +1,5 @@
 import express from "express";
+import next from "next";
 import {
   getAvailableActions,
   isExecutionRunning,
@@ -7,8 +8,11 @@ import {
 } from "./commandRunner.js";
 
 const app = express();
-
-app.use(express.json());
+const host = process.env.HOST || "0.0.0.0";
+const port = Number(process.env.PORT || 8080);
+const forceDev = process.env.NEXT_DEV !== "false";
+const nextApp = next({ dev: forceDev, hostname: host, port });
+const nextHandler = nextApp.getRequestHandler();
 
 function authenticate(req, res, next) {
   const configuredToken = process.env.RUN_TOKEN;
@@ -38,7 +42,7 @@ function authenticate(req, res, next) {
   next();
 }
 
-app.post("/run", authenticate, async (req, res) => {
+app.post("/run", express.json(), authenticate, async (req, res) => {
   const action = req.body?.action;
   const args = req.body?.args;
 
@@ -106,7 +110,20 @@ app.get("/health", (_req, res) => {
   });
 });
 
-const port = Number(process.env.PORT || 8080);
-app.listen(port, () => {
-  console.log(`[server] Command runner listening on port ${port}`);
+app.all("*", (req, res) => {
+  return nextHandler(req, res);
+});
+
+async function start() {
+  await nextApp.prepare();
+  app.listen(port, host, () => {
+    console.log(
+      `[server] Unified server listening on ${host}:${port} (nextDev=${forceDev})`,
+    );
+  });
+}
+
+start().catch((error) => {
+  console.error("[server] Failed to start unified server", error);
+  process.exit(1);
 });
