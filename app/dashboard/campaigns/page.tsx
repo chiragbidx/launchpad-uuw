@@ -72,12 +72,14 @@ function AddEditCampaignForm({
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
+    // Only close modal if submit succeeded (no error present after submit)
     if (!pending && formState === null) {
       formRef.current?.reset();
       onDone();
     }
+    // Do NOT call onDone (close) if there's an error present
     // eslint-disable-next-line
-  }, [formState, pending]);
+  }, [formState, pending, onDone]);
 
   return (
     <form
