@@ -1,3 +1,4 @@
+"use client";
 import { Building2, UserPlus, Pencil, Users, ArrowRight, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
